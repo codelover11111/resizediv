@@ -16,10 +16,10 @@ export function init({selector, dragLeft, dragRight, dragTop, dragBottom}) {
         if(selectElmnt === "") {
           direction = elmnt[i].getAttribute("data-resize_handle");
         }else {
-          if(selectElmnt.indexOf("left") !== -1) direction = "left";
-          else if(selectElmnt.indexOf("right") !== -1) direction = "right";
-          else if(selectElmnt.indexOf("top") !== -1) direction = "top";
-          else if(selectElmnt.indexOf("bottom") !== -1) direction = "bottom";
+          if("." + selectElmnt === dragLeft) direction = "left";
+          else if("." + selectElmnt === dragRight) direction = "right";
+          else if("." + selectElmnt === dragTop) direction = "top";
+          else if("." + selectElmnt === dragBottom) direction = "bottom";
         }
         let computedStyle = getComputedStyle(document.querySelectorAll(selector)[0]);
         width = document.querySelectorAll(selector)[0].offsetWidth;
@@ -27,7 +27,7 @@ export function init({selector, dragLeft, dragRight, dragTop, dragBottom}) {
         height = document.querySelectorAll(selector)[0].offsetHeight;
         height -= parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom);
         left = document.querySelectorAll(selector)[0].offsetLeft;
-        right = screen.width - left - width - parseFloat(computedStyle.paddingLeft) - parseFloat(computedStyle.paddingRight);
+        right = window.innerWidth - left - width - parseFloat(computedStyle.paddingLeft) - parseFloat(computedStyle.paddingRight);
         top = document.querySelectorAll(selector)[0].offsetTop;
         bottom = window.innerHeight - top - height - parseFloat(computedStyle.paddingTop) - parseFloat(computedStyle.paddingBottom);
         console.log(left, right, top, bottom)
@@ -49,28 +49,32 @@ export function init({selector, dragLeft, dragRight, dragTop, dragBottom}) {
         // set the element's new position:
         switch(direction) {
           case "left": {
-            elmnt[i].style.left = (elmnt[i].offsetLeft/2 - pos1) + "px";
+            // elmnt[i].style.left = (elmnt[i].offsetLeft/2 - pos1) + "px";
+            elmnt[i].style.left = 0;
             document.querySelectorAll(selector)[0].style.left = "auto";
             document.querySelectorAll(selector)[0].style.right = right + "px";
             document.querySelectorAll(selector)[0].style.width = (width + ((-1) * pos3 + originX)) + "px";
             break;
           }
           case "right": {
-            elmnt[i].style.left = (elmnt[i].offsetLeft - pos1) + "px";
+            // elmnt[i].style.left = (elmnt[i].offsetLeft - pos1) + "px";
+            elmnt[i].style.right = 0;
             document.querySelectorAll(selector)[0].style.left = left + "px";
             document.querySelectorAll(selector)[0].style.right = "auto";
             document.querySelectorAll(selector)[0].style.width = (width + (pos3 - originX)) + "px";
             break;
           }
           case "top": {
-            elmnt[i].style.top = (elmnt[i].offsetTop/2 - pos2) + "px";
+            // elmnt[i].style.top = (elmnt[i].offsetTop/2 - pos2) + "px";
+            elmnt[i].style.top = 0;
             document.querySelectorAll(selector)[0].style.top = "auto";
             document.querySelectorAll(selector)[0].style.bottom = bottom + "px";
             document.querySelectorAll(selector)[0].style.height = height + ((-1) * pos4 + originY) + "px";
             break;
           }
           case "bottom": {
-            elmnt[i].style.top = (elmnt[i].offsetTop - pos2) + "px";
+            // elmnt[i].style.top = (elmnt[i].offsetTop - pos2) + "px";
+            elmnt[i].style.bottom = 0;
             document.querySelectorAll(selector)[0].style.top = top + "px";
             document.querySelectorAll(selector)[0].style.bottom = bottom + "px";
             document.querySelectorAll(selector)[0].style.height = height + (pos4 - originY) + "px";
